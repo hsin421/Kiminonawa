@@ -34,4 +34,3 @@ function gotMessage(request, sender, sendResponse) {
   }
   sendResponse({});
 }
-

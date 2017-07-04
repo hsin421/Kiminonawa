@@ -37,7 +37,7 @@ function scrollIntoView (element, alignTop) {
       var deltaLeft =
           originRect.left -
           (rects.left + (parseInt(element.style.borderLeftWidth, 10) | 0));
-      var deltaRight = 
+      var deltaRight =
           originRect.right -
           (rects.left + element.clientWidth +
            (parseInt(element.style.borderLeftWidth, 10) | 0));
@@ -289,16 +289,26 @@ function gotMessage(request, sender, sendResponse) {
 function startScreenshot() {
   console.log('start screenshot');
   //change cursor
-  document.body.style.cursor = 'crosshair';
-
-  document.addEventListener('mousedown', mouseDown, false);
-  document.addEventListener('keydown', keyDown, false);
+  // document.body.style.cursor = 'crosshair';
+  //
+  // document.addEventListener('mousedown', mouseDown, false);
+  // document.addEventListener('keydown', keyDown, false);
+  setTimeout(function() {
+    var coords = {
+      w: window.innerWidth,
+      h: window.innerHeight,
+      x: 0,
+      y: 0
+    };
+    gCoords = coords;
+    endScreenshot(coords);
+  }, 50);
 }
 
 function endScreenshot(coords) {
-  document.removeEventListener('mousedown', mouseDown, false);
+  // document.removeEventListener('mousedown', mouseDown, false);
 
-  sendMessage({type: 'coords', coords: coords});
+  sendMessage({type: 'coords', coords: coords, document });
 }
 
 function sendMessage(msg) {
@@ -388,4 +398,3 @@ function mouseMove(e) {
 
   return false;
 }
-

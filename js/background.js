@@ -25,13 +25,14 @@ function cropData(str, coords, callback) {
   img.src = str;
 }
 
-function capture(coords) {
+function capture(coords, requestDocument) {
   chrome.tabs.captureVisibleTab(null, {format: "png"}, function(dataUrl) {
-    cropData(dataUrl, coords, function(data) {
-      console.log("Done");
-      var dataUri = data.dataUri;
-      upload(dataUri);
-    });
+    // cropData(dataUrl, coords, function(data) {
+    //   console.log("Done");
+    //   var dataUri = data.dataUri;
+    //   upload(dataUri);
+    // });
+    upload(dataUrl, requestDocument);
   });
 }
 
@@ -45,7 +46,8 @@ chrome.extension.onMessage.addListener(gotMessage);
 
 function gotMessage(request, sender, sendResponse) {
   if (request.type == "coords") {
-    capture(request.coords);
+  capture(request.coords, request.document);
+
   } else if (request.type === 'screenshot-btn-clicked') {
     sendMessage({type: 'start-screenshots'}, tab);
   }
@@ -59,7 +61,7 @@ function sendMessage(msg, tab) {
   chrome.tabs.sendMessage(tab.id, msg, function(response) {});
 };
 
-function upload(dataUri) {
+function upload(dataUri, requestDocument) {
   var fd = new FormData();
   var image64 = dataUri.replace(/data:image\/png;base64,/, '');
 
@@ -78,8 +80,27 @@ function upload(dataUri) {
       }
       var imageUrl = response.data.link;
 
-      var win = window.open(imageUrl, '_blank');
-      win.focus();
+      // var win = window.open(imageUrl, '_blank');
+      // win.focus();
+
+      fetch('https://5bq2v7mgi5.execute-api.us-east-1.amazonaws.com/prod/mySimpleBE', {
+        method: 'POST',
+        body: JSON.stringify({
+          "Item": {
+            timestamp: new Date().getTime(),
+            organization: requestDocument.title,
+            organizationEmail: 'unknown',
+            situation: 'Reported by browser extension',
+            userName: 'Extension',
+            userEmail: 'unknown',
+            imgUrl: imageUrl,
+            url: requestDocument.URL,
+          },
+          "TableName": 'TW-Name'
+        })
+      })
+      .then(res => alert('Case successfully reported!'))
+      .catch(err => {})
     }
   };
   xhr.send(fd);
