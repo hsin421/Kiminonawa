@@ -8,7 +8,8 @@
 請見[g0v網站](https://g0v.hackpad.com/vPut9gWRsWH)
 
 ## Develop
-1. Go to [chrome://extensions/]([chrome://extensions/])
+0. click download on the top right green "Clone or download" button
+1. Go to [chrome://extensions/]([chrome://extensions/]) in your Chrome browser
 2. Check `Developer mode`
 3. Click `Load unpacked extension...` button
-4. Choose `Kiminonawa` folder
+4. Choose `Kiminonawa` folder that you just downloaded
