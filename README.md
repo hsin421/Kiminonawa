@@ -7,7 +7,7 @@
 ## 懶人包
 請見[g0v網站](https://g0v.hackpad.com/vPut9gWRsWH)
 
-## Develop
+## How to Install from source code
 1. click download on the top right green `Clone or download` button and click `Download ZIP`
 2. After download completes, unzip.
 3. Go to [chrome://extensions/]([chrome://extensions/]) in your Chrome browser
